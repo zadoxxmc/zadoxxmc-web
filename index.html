@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZADOXxMC | Minecraft Universe</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Minecraft&family=Oxanium:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Particle.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#00FF88",
+                        secondary: "#0099FF",
+                        dark: "#0F0F10",
+                        minecraft: "#55FF55"
+                    },
+                    fontFamily: {
+                        'mc': ['"Minecraft"', 'sans-serif'],
+                        'oxanium': ['"Oxanium"', 'sans-serif']
+                    },
+                    animation: {
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'float': 'float 6s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        glow: {
+                            '0%': { 'text-shadow': '0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #00FF88, 0 0 20px #00FF88' },
+                            '100%': { 'text-shadow': '0 0 10px #FFF, 0 0 20px #FFF, 0 0 30px #00FF88, 0 0 40px #00FF88' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F0F10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00FF88;
+            border-radius: 5px;
+        }
+        
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+            animation: glitch 5s infinite;
+        }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #FF00C1;
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim 2s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00FFF9;
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim-2 2s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitch-anim {
+            0% { clip: rect(32px, 9999px, 76px, 0); }
+            20% { clip: rect(108px, 9999px, 129px, 0); }
+            40% { clip: rect(76px, 9999px, 16px, 0); }
+            60% { clip: rect(137px, 9999px, 62px, 0); }
+            80% { clip: rect(62px, 9999px, 103px, 0); }
+            100% { clip: rect(18px, 9999px, 124px, 0); }
+        }
+        
+        /* Minecraft Button */
+        .mc-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            border: 2px solid #55FF55;
+            box-shadow: 0 0 10px rgba(85, 255, 85, 0.5);
+        }
+        .mc-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(85, 255, 85, 0.8);
+        }
+        .mc-btn:active {
+            transform: translateY(1px);
+        }
+        .mc-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(85, 255, 85, 0.4), transparent);
+            transition: 0.5s;
+        }
+        .mc-btn:hover::after {
+            left: 100%;
+        }
+    </style>
+</head>
+<body class="bg-dark text-white font-oxanium overflow-x-hidden">
+    <!-- Particle Background -->
+    <div id="particles-js" class="fixed inset-0 -z-10"></div>
+    
+    <!-- Navbar -->
+    <nav class="fixed w-full bg-dark/80 backdrop-blur-md z-50 p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-primary flex items-center">
+                <img src="logo.png" alt="ZADOXxMC" class="h-10 mr-2">
+                <span class="glitch" data-text="ZADOXxMC">ZADOXxMC</span>
+            </a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="hover:text-primary transition-colors">Home</a>
+                <a href="#projects" class="hover:text-primary transition-colors">Projects</a>
+                <a href="#gallery" class="hover:text-primary transition-colors">Gallery</a>
+                <a href="#about" class="hover:text-primary transition-colors">About</a>
+                <a href="#contact" class="hover:text-primary transition-colors">Contact</a>
+            </div>
+            <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-800">
+                <i class="fas fa-moon text-xl"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative pt-20">
+        <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover -z-20">
+            <source src="background.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-black/50 -z-10"></div>
+        
+        <div class="container mx-auto px-4 text-center" data-aos="fade-up">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6">
+                <span class="text-primary glitch" data-text="WELCOME TO ZADOXxMC">WELCOME TO ZADOXxMC</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
+                The ultimate Minecraft experience with custom addons, maps, and adventures!
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#projects" class="mc-btn bg-primary text-black px-6 py-3 rounded-lg font-bold">
+                    <i class="fas fa-gem mr-2"></i> Explore Projects
+                </a>
+                <a href="#" class="mc-btn bg-red-600 text-white px-6 py-3 rounded-lg font-bold">
+                    <i class="fab fa-youtube mr-2"></i> YouTube
+                </a>
+            </div>
+        </div>
+        
+        <a href="#projects" class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i class="fas fa-chevron-down text-2xl"></i>
+        </a>
+    </section>
+    
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-dark/90 backdrop-blur-sm">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">
+                <span class="text-primary">Our Latest Projects</span>
+            </h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="bg-gray-900 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up">
+                    <div class="h-48 overflow-hidden">
+                        <img src="project1.jpg" alt="Furniture Addon" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Furniture Addon Pro</h3>
+                        <p class="text-gray-400 mb-4">200+ custom furniture items for your Minecraft builds!</p>
+                        <a href="#" class="mc-btn inline-block bg-primary text-black px-4 py-2 rounded-lg text-sm font-bold">
+                            Download Now
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="bg-gray-900 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
+                    <div class="h-48 overflow-hidden">
+                        <img src="project2.jpg" alt="Adventure Map" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Lost Temple Adventure</h3>
+                        <p class="text-gray-400 mb-4">Explore ancient ruins and solve puzzles!</p>
+                        <a href="#" class="mc-btn inline-block bg-primary text-black px-4 py-2 rounded-lg text-sm font-bold">
+                            Download Now
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="bg-gray-900 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-48 overflow-hidden">
+                        <img src="project3.jpg" alt="Mob Addon" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Mythical Mobs</h3>
+                        <p class="text-gray-400 mb-4">50+ new creatures from global folklore!</p>
+                        <a href="#" class="mc-btn inline-block bg-primary text-black px-4 py-2 rounded-lg text-sm font-bold">
+                            Download Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-20 bg-black/80 backdrop-blur-sm">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">
+                <span class="text-primary">Project Gallery</span>
+            </h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <a href="gallery1.jpg" class="gallery-item group" data-aos="zoom-in">
+                    <img src="gallery1.jpg" alt="Gallery Image" class="w-full h-48 object-cover rounded-lg group-hover:opacity-80 transition-opacity">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <i class="fas fa-search-plus text-2xl text-white bg-black/50 p-3 rounded-full"></i>
+                    </div>
+                </a>
+                <!-- More gallery items... -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-10 bg-black/90 text-center">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center space-x-6 mb-6">
+                <a href="#" class="text-2xl hover:text-primary transition-colors"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="text-2xl hover:text-primary transition-colors"><i class="fab fa-discord"></i></a>
+                <a href="#" class="text-2xl hover:text-primary transition-colors"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p class="text-gray-400">&copy; 2023 ZADOXxMC. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+        
+        // Particle.js Config
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#00FF88" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: "#00FF88", opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 2, direction: "none", random: true, straight: false, out_mode: "out" }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" }
+                }
+            }
+        });
+        
+        // Dark/Light Mode Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            if (document.body.classList.contains('light-mode')) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                document.body.style.backgroundColor = '#F8F9FA';
+                document.body.style.color = '#212529';
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                document.body.style.backgroundColor = '#0F0F10';
+                document.body.style.color = '#FFFFFF';
+            }
+        });
+        
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
